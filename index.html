@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fischer Builders, Inc. | Home Services & Remodeling</title>
+    <meta
+      name="description"
+      content="Fischer Builders, Inc. provides home services and remodeling, including kitchens, bathrooms, decks, exterior work, repairs, and general improvements."
+    >
+    <style>
+      :root {
+        --green: #14572c;
+        --green-dark: #0c351d;
+        --ink: #111417;
+        --muted: #5f666b;
+        --line: #dfe5df;
+        --soft: #f5f7f3;
+        --white: #ffffff;
+        --shadow: 0 18px 40px rgba(17, 20, 23, 0.11);
+        --max: 1160px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background: var(--white);
+        line-height: 1.5;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid rgba(20, 87, 44, 0.16);
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(16px);
+      }
+
+      .header-inner {
+        width: min(var(--max), calc(100% - 32px));
+        min-height: 82px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        min-width: 0;
+      }
+
+      .brand img {
+        width: clamp(158px, 18vw, 200px);
+        height: auto;
+      }
+
+      .header-actions,
+      .cta-row,
+      .footer-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .button {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid transparent;
+        border-radius: 7px;
+        padding: 10px 16px;
+        font-weight: 750;
+        line-height: 1;
+        transition:
+          transform 160ms ease,
+          background-color 160ms ease,
+          border-color 160ms ease,
+          color 160ms ease;
+      }
+
+      .button:hover,
+      .button:focus-visible {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        background: var(--green);
+        color: var(--white);
+      }
+
+      .button-primary:hover,
+      .button-primary:focus-visible {
+        background: var(--green-dark);
+      }
+
+      .button-outline {
+        border-color: rgba(20, 87, 44, 0.34);
+        color: var(--green-dark);
+        background: var(--white);
+      }
+
+      .button-outline:hover,
+      .button-outline:focus-visible {
+        border-color: var(--green);
+      }
+
+      .hero {
+        width: min(var(--max), calc(100% - 32px));
+        margin: 0 auto;
+        padding: 74px 0 54px;
+        display: grid;
+        grid-template-columns: minmax(0, 0.93fr) minmax(420px, 1.07fr);
+        gap: 46px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--green);
+        font-size: 0.82rem;
+        font-weight: 850;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin-bottom: 18px;
+        font-size: clamp(2.7rem, 5.6vw, 5.6rem);
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      .hero-copy {
+        max-width: 610px;
+        margin-bottom: 28px;
+        color: #3e4448;
+        font-size: clamp(1.05rem, 1.7vw, 1.32rem);
+      }
+
+      .carousel {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        background: var(--soft);
+        box-shadow: var(--shadow);
+        aspect-ratio: 16 / 11;
+      }
+
+      .carousel-track {
+        height: 100%;
+        display: flex;
+        transform: translateX(0);
+        transition: transform 420ms ease;
+      }
+
+      .slide {
+        position: relative;
+        min-width: 100%;
+        height: 100%;
+      }
+
+      .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .slide-caption {
+        position: absolute;
+        left: 18px;
+        bottom: 18px;
+        max-width: calc(100% - 36px);
+        border-radius: 7px;
+        padding: 10px 12px;
+        color: var(--white);
+        background: rgba(12, 53, 29, 0.86);
+        font-size: 0.95rem;
+        font-weight: 800;
+      }
+
+      .carousel-controls {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        display: flex;
+        gap: 8px;
+      }
+
+      .icon-button {
+        width: 42px;
+        height: 42px;
+        border: 1px solid rgba(255, 255, 255, 0.54);
+        border-radius: 50%;
+        color: var(--white);
+        background: rgba(17, 20, 23, 0.56);
+        cursor: pointer;
+      }
+
+      .icon-button:hover,
+      .icon-button:focus-visible {
+        background: var(--green-dark);
+      }
+
+      .section-band {
+        border-top: 1px solid var(--line);
+        background: var(--soft);
+      }
+
+      .section {
+        width: min(var(--max), calc(100% - 32px));
+        margin: 0 auto;
+        padding: 70px 0;
+      }
+
+      .section-heading {
+        display: grid;
+        grid-template-columns: minmax(0, 0.8fr) minmax(280px, 1fr);
+        gap: 42px;
+        align-items: end;
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        margin-bottom: 0;
+        font-size: clamp(2rem, 4vw, 3.6rem);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      .section-heading p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .work-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 30px;
+        margin: 0;
+        padding: 4px 0;
+        list-style: none;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        background: var(--white);
+      }
+
+      .work-list li {
+        position: relative;
+        min-height: 54px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+        padding: 14px 0 14px 28px;
+        color: var(--green-dark);
+        font-size: 1.05rem;
+        font-weight: 800;
+      }
+
+      .work-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+
+      .work-list li:last-child {
+        border-bottom: 0;
+      }
+
+      .contact-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 0.72fr) minmax(360px, 1fr);
+        gap: 46px;
+        align-items: start;
+      }
+
+      .contact-panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: clamp(22px, 4vw, 34px);
+        background: var(--white);
+        box-shadow: 0 10px 28px rgba(17, 20, 23, 0.07);
+      }
+
+      .contact-list {
+        display: grid;
+        gap: 16px;
+        margin: 28px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .contact-list a {
+        display: inline-flex;
+        color: var(--green-dark);
+        font-weight: 800;
+      }
+
+      form {
+        display: grid;
+        gap: 14px;
+      }
+
+      .field-pair {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      label {
+        display: grid;
+        gap: 7px;
+        color: #24292d;
+        font-size: 0.92rem;
+        font-weight: 750;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border: 1px solid #cfd8d0;
+        border-radius: 7px;
+        padding: 12px 13px;
+        color: var(--ink);
+        background: #fbfcfa;
+        outline: none;
+      }
+
+      textarea {
+        min-height: 168px;
+        resize: vertical;
+      }
+
+      input:focus,
+      textarea:focus {
+        border-color: var(--green);
+        box-shadow: 0 0 0 3px rgba(20, 87, 44, 0.14);
+      }
+
+      .button[disabled] {
+        cursor: not-allowed;
+        opacity: 0.72;
+        transform: none;
+      }
+
+      .form-note {
+        min-height: 22px;
+        margin: 0;
+        color: var(--green-dark);
+        font-size: 0.92rem;
+        font-weight: 750;
+      }
+
+      .form-note[data-state="error"] {
+        color: #9b1c1c;
+      }
+
+      .site-footer {
+        color: var(--white);
+        background: var(--green-dark);
+      }
+
+      .footer-inner {
+        width: min(var(--max), calc(100% - 32px));
+        margin: 0 auto;
+        padding: 34px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .footer-brand strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 1.1rem;
+      }
+
+      .footer-brand span {
+        display: block;
+        color: rgba(255, 255, 255, 0.76);
+      }
+
+      .footer-brand small {
+        display: block;
+        margin-top: 8px;
+        color: rgba(255, 255, 255, 0.66);
+        font-size: 0.86rem;
+      }
+
+      .site-footer .button-outline {
+        border-color: rgba(255, 255, 255, 0.42);
+        color: var(--white);
+        background: transparent;
+      }
+
+      .site-footer .button-primary {
+        color: var(--green-dark);
+        background: var(--white);
+      }
+
+      @media (max-width: 900px) {
+        .header-inner {
+          min-height: 68px;
+        }
+
+        .header-actions .button {
+          padding-inline: 12px;
+        }
+
+        .hero,
+        .contact-layout,
+        .section-heading {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 48px;
+        }
+
+        .carousel {
+          aspect-ratio: 16 / 12;
+        }
+
+        .work-list {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-inner {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .header-inner {
+          width: min(100% - 22px, var(--max));
+          gap: 12px;
+        }
+
+        .brand img {
+          width: 138px;
+        }
+
+        .header-actions {
+          justify-content: flex-end;
+          gap: 7px;
+        }
+
+        .header-actions .button {
+          min-height: 39px;
+          padding: 9px 10px;
+          font-size: 0.84rem;
+        }
+
+        .hero,
+        .section,
+        .footer-inner {
+          width: min(100% - 24px, var(--max));
+        }
+
+        .hero {
+          padding-bottom: 38px;
+        }
+
+        h1 {
+          font-size: clamp(2.35rem, 16vw, 3.6rem);
+        }
+
+        .cta-row,
+        .footer-actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .button {
+          width: 100%;
+        }
+
+        .field-pair {
+          grid-template-columns: 1fr;
+        }
+
+        .section {
+          padding: 54px 0;
+        }
+
+        .slide-caption {
+          left: 12px;
+          bottom: 12px;
+          max-width: calc(100% - 24px);
+          font-size: 0.87rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="Fischer Builders home">
+          <img src="assets/fischer-builders-logo.png" alt="Fischer Builders, Inc.">
+        </a>
+        <nav class="header-actions" aria-label="Primary">
+          <a class="button button-outline" href="tel:+16304700465">Call Now</a>
+          <a class="button button-primary" href="#contact">Get in Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <p class="eyebrow">For all your building and remodeling dreams</p>
+          <h1 id="hero-title">Fischer Builders, Inc.</h1>
+          <p class="hero-copy">
+            Kitchens, bathrooms, decks, exterior work, repairs, and home
+            improvements handled with clean planning and practical execution.
+          </p>
+          <div class="cta-row">
+            <a class="button button-primary" href="#contact">Get in Contact</a>
+            <a class="button button-outline" href="tel:+16304700465">Call Now</a>
+          </div>
+        </div>
+
+        <div class="carousel" aria-label="Examples of remodeling work">
+          <div class="carousel-track" data-carousel-track>
+            <article class="slide">
+              <img src="assets/carousel/project-deck-exterior.jpg" alt="Finished exterior deck and patio overlooking a lake">
+              <div class="slide-caption">Decks and exterior spaces</div>
+            </article>
+            <article class="slide">
+              <img src="assets/carousel/project-exterior-build.jpg" alt="Large exterior residential build in progress">
+              <div class="slide-caption">Exterior builds</div>
+            </article>
+            <article class="slide">
+              <img src="assets/carousel/project-framing.jpg" alt="Interior room framing with exposed rafters and ladder">
+              <div class="slide-caption">Structural framing</div>
+            </article>
+            <article class="slide">
+              <img src="assets/carousel/project-interior-renovation.jpg" alt="Large interior renovation with finished drywall and custom ceiling detail">
+              <div class="slide-caption">Interior renovations</div>
+            </article>
+            <article class="slide">
+              <img src="assets/carousel/project-masonry-windows.jpg" alt="Exterior masonry and window installation in progress">
+              <div class="slide-caption">Masonry and windows</div>
+            </article>
+            <article class="slide">
+              <img src="assets/carousel/project-tile-finish.jpg" alt="Tile backsplash and laundry room finish work in progress">
+              <div class="slide-caption">Tile and finish work</div>
+            </article>
+          </div>
+          <div class="carousel-controls">
+            <button class="icon-button" type="button" data-carousel-prev aria-label="Previous example">
+              &#8249;
+            </button>
+            <button class="icon-button" type="button" data-carousel-next aria-label="Next example">
+              &#8250;
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-band" aria-labelledby="work-title">
+        <div class="section">
+          <div class="section-heading">
+            <h2 id="work-title">Work We Do</h2>
+          </div>
+          <ul class="work-list">
+            <li>New Home Construction</li>
+            <li>Home Remodel</li>
+            <li>Room and Roof Additions</li>
+            <li>Siding</li>
+            <li>Decks</li>
+            <li>Detached Garage Construction</li>
+            <li>Bathroom Remodel</li>
+            <li>Concrete</li>
+            <li>Light Excavating and Hauling</li>
+            <li>Grading and Yard Install</li>
+            <li>Land Clearing</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="contact" aria-labelledby="contact-title">
+        <div class="contact-layout">
+          <div>
+            <p class="eyebrow">Get in contact</p>
+            <h2 id="contact-title">Tell us about the address and the work.</h2>
+            <ul class="contact-list">
+              <li><a href="tel:+16304700465">Call Now: (630) 470-0465</a></li>
+              <li><a href="mailto:westenfelderchase@gmail.com">Email: westenfelderchase@gmail.com</a></li>
+            </ul>
+          </div>
+
+          <div class="contact-panel">
+            <form id="contact-form" action="/api/contact" method="post">
+              <div class="field-pair">
+                <label>
+                  Name
+                  <input autocomplete="name" name="name" type="text" required>
+                </label>
+                <label>
+                  Phone
+                  <input autocomplete="tel" name="phone" type="tel" required>
+                </label>
+              </div>
+              <label>
+                Email
+                <input autocomplete="email" name="email" type="email" required>
+              </label>
+              <label>
+                Address of Interest
+                <input autocomplete="street-address" name="address" type="text" required>
+              </label>
+              <label>
+                Message / Notes
+                <textarea name="message" placeholder="How can we help you?" required></textarea>
+              </label>
+              <button class="button button-primary" type="submit" data-submit-button>Submit Request</button>
+              <p class="form-note" id="form-note" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <strong>Fischer Builders, Inc.</strong>
+          <span>For all your building and remodeling dreams</span>
+          <small>2026 Fischer Builders Inc.</small>
+        </div>
+        <div class="footer-actions">
+          <a class="button button-outline" href="tel:+16304700465">Call Now</a>
+          <a class="button button-primary" href="#contact">Get in Contact</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const track = document.querySelector("[data-carousel-track]");
+      const slides = Array.from(track.children);
+      const previousButton = document.querySelector("[data-carousel-prev]");
+      const nextButton = document.querySelector("[data-carousel-next]");
+      let activeSlide = 0;
+
+      function showSlide(index) {
+        activeSlide = (index + slides.length) % slides.length;
+        track.style.transform = `translateX(-${activeSlide * 100}%)`;
+      }
+
+      previousButton.addEventListener("click", () => showSlide(activeSlide - 1));
+      nextButton.addEventListener("click", () => showSlide(activeSlide + 1));
+
+      setInterval(() => showSlide(activeSlide + 1), 6200);
+
+      const contactForm = document.getElementById("contact-form");
+      const formNote = document.getElementById("form-note");
+      const submitButton = contactForm.querySelector("[data-submit-button]");
+      const defaultSubmitText = submitButton.textContent;
+      let isSubmitting = false;
+
+      contactForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (isSubmitting) {
+          return;
+        }
+
+        if (!contactForm.checkValidity()) {
+          contactForm.reportValidity();
+          return;
+        }
+
+        isSubmitting = true;
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+        formNote.dataset.state = "";
+        formNote.textContent = "";
+
+        const formData = new FormData(contactForm);
+        const payload = Object.fromEntries(formData.entries());
+
+        try {
+          const response = await fetch(contactForm.action, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const result = await response.json().catch(() => ({}));
+
+          if (!response.ok) {
+            throw new Error(result.error || "The message could not be sent. Please call or email us directly.");
+          }
+
+          contactForm.reset();
+          formNote.dataset.state = "success";
+          formNote.textContent = "Thanks. Your request was sent successfully.";
+        } catch (error) {
+          formNote.dataset.state = "error";
+          formNote.textContent = error.message;
+        } finally {
+          isSubmitting = false;
+          submitButton.disabled = false;
+          submitButton.textContent = defaultSubmitText;
+        }
+      });
+    </script>
+  </body>
+</html>
