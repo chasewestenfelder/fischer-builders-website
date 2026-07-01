@@ -16,6 +16,21 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+async function readProviderError(emailResponse) {
+  const text = await emailResponse.text().catch(() => "");
+
+  if (!text) {
+    return `Resend returned HTTP ${emailResponse.status}.`;
+  }
+
+  try {
+    const parsed = JSON.parse(text);
+    return parsed.message || parsed.error || text;
+  } catch (error) {
+    return text;
+  }
+}
+
 async function readJsonBody(request) {
   if (request.body && typeof request.body === "object") {
     return request.body;
@@ -76,6 +91,7 @@ module.exports = async function handler(request, response) {
   const resendApiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.CONTACT_TO_EMAIL;
   const fromEmail = process.env.CONTACT_FROM_EMAIL;
+  const debugErrors = process.env.CONTACT_DEBUG === "true";
 
   if (!resendApiKey || !toEmail || !fromEmail) {
     sendJson(response, 500, { error: "Email service is not configured yet." });
@@ -124,12 +140,26 @@ module.exports = async function handler(request, response) {
     });
 
     if (!emailResponse.ok) {
-      sendJson(response, 502, { error: "The message could not be sent. Please call or email us directly." });
+      const providerError = await readProviderError(emailResponse);
+      console.error("Resend send failed", {
+        status: emailResponse.status,
+        error: providerError
+      });
+      sendJson(response, 502, {
+        error: debugErrors
+          ? `Email provider rejected the message: ${providerError}`
+          : "The message could not be sent. Please call or email us directly."
+      });
       return;
     }
 
     sendJson(response, 200, { ok: true });
   } catch (error) {
-    sendJson(response, 502, { error: "The message could not be sent. Please call or email us directly." });
+    console.error("Contact form email send failed", error);
+    sendJson(response, 502, {
+      error: debugErrors
+        ? `Email send failed: ${error.message}`
+        : "The message could not be sent. Please call or email us directly."
+    });
   }
 };
