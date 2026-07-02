@@ -274,6 +274,39 @@
         font-size: 1.05rem;
       }
 
+      .areas-strip {
+        width: min(var(--max), calc(100% - 32px));
+        margin: 0 auto;
+        padding: 0 0 58px;
+      }
+
+      .areas-inner {
+        display: grid;
+        grid-template-columns: minmax(190px, 0.32fr) minmax(0, 1fr);
+        gap: 24px;
+        align-items: center;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        padding: 26px 0;
+      }
+
+      .areas-inner h2 {
+        margin: 0;
+        color: var(--green-dark);
+        font-size: clamp(1.5rem, 2.3vw, 2.1rem);
+      }
+
+      .area-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 24px;
+        margin: 0;
+        padding: 0;
+        color: var(--green-dark);
+        font-weight: 800;
+        list-style: none;
+      }
+
       .work-list {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -336,6 +369,12 @@
       }
 
       .contact-list a {
+        display: inline-flex;
+        color: var(--green-dark);
+        font-weight: 800;
+      }
+
+      .contact-list span {
         display: inline-flex;
         color: var(--green-dark);
         font-weight: 800;
@@ -455,7 +494,8 @@
 
         .hero,
         .contact-layout,
-        .section-heading {
+        .section-heading,
+        .areas-inner {
           grid-template-columns: 1fr;
         }
 
@@ -500,6 +540,7 @@
 
         .hero,
         .section,
+        .areas-strip,
         .footer-inner {
           width: min(100% - 24px, var(--max));
         }
@@ -605,6 +646,18 @@
         </div>
       </section>
 
+      <section class="areas-strip" aria-labelledby="areas-title">
+        <div class="areas-inner">
+          <h2 id="areas-title">Areas We Serve</h2>
+          <ul class="area-list">
+            <li>Madison County</li>
+            <li>Clinton County</li>
+            <li>Bond County</li>
+            <li>St. Clair County</li>
+          </ul>
+        </div>
+      </section>
+
       <section class="section-band" aria-labelledby="work-title">
         <div class="section">
           <div class="section-heading">
@@ -634,6 +687,7 @@
             <ul class="contact-list">
               <li><a href="tel:+16187812167">Call or Text: (618) 781-2167</a></li>
               <li><a href="mailto:fischerbuilders@charter.net">Email: fischerbuilders@charter.net</a></li>
+              <li><span>3356 Bush Drive, Highland IL 62249</span></li>
             </ul>
           </div>
 
